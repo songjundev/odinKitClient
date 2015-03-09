@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\BillboardParticleSystem.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\Camera3D.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\CCSequence3D.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\DrawNode3D.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\EffectSprite.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\EffectSprite3D.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\GreyShader.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\JumpBy3D.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\JumpTo3D.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\ShadowSprite.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\Water.cpp" />
+    <ClCompile Include="..\Classes\Lua\lua_cocos2dx_custom.cpp" />
+    <ClCompile Include="..\Classes\odinKit.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\cocos-extend\BillboardParticleSystem.h" />
+    <ClInclude Include="..\Classes\cocos-extend\Camera3D.h" />
+    <ClInclude Include="..\Classes\cocos-extend\CCSequence3D.h" />
+    <ClInclude Include="..\Classes\cocos-extend\DrawNode3D.h" />
+    <ClInclude Include="..\Classes\cocos-extend\EffectSprite.h" />
+    <ClInclude Include="..\Classes\cocos-extend\EffectSprite3D.h" />
+    <ClInclude Include="..\Classes\cocos-extend\GreyShader.h" />
+    <ClInclude Include="..\Classes\cocos-extend\JumpBy3D.h" />
+    <ClInclude Include="..\Classes\cocos-extend\JumpTo3D.h" />
+    <ClInclude Include="..\Classes\cocos-extend\ShadowSprite.h" />
+    <ClInclude Include="..\Classes\cocos-extend\Water.h" />
+    <ClInclude Include="..\Classes\Lua\lua_cocos2dx_custom.hpp" />
+    <ClInclude Include="..\Classes\Lua\lua_register.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4BA6B7BD-8E52-4236-B523-9FB9486B7B06}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>odinKit</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\..\..\exec\client\bin.win32</OutDir>
+    <IntDir>$(SolutionDir)\..\..\intermediate\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>$(ProjectName)D</TargetName>
+    <EmbedManifest>false</EmbedManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\intermediate\$(ProjectName).win32\Release\</OutDir>
+    <IntDir>$(SolutionDir)..\intermediate\$(ProjectName).win32\Release\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_USING_V110_SDK71_;_CRT_SECURE_NO_DEPRECATE;COCOS2D_DEBUG=1;WIN32;_DEBUG;_WINDOWS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes\;$(ProjectDir)..\Classes\Global;$(ProjectDir)..\Classes\Controller;$(ProjectDir)..\Classes\protobuf-lite;$(ProjectDir)..\Classes\runtime;$(ProjectDir)..\Classes\Lua;$(ProjectDir)..\Classes\cocos-extend;$(ProjectDir)..\libs;$(ProjectDir)..\libs\cocos;$(ProjectDir)..\libs\cocos\platform;$(ProjectDir)..\libs\cocos\editor-support\;$(ProjectDir)..\libs\cocos\editor-support\spine;$(ProjectDir)..\libs\cocos\editor-support\cocosbuilder;$(ProjectDir)..\libs\cocos\scripting\lua-bindings\manual;$(ProjectDir)..\libs\external\win32-specific\zlib\include;$(ProjectDir)..\libs\external\win32-specific\gles\include\OGLES;$(ProjectDir)..\libs\external\glfw3\include\win32;$(ProjectDir)..\libs\external\lua\lua;$(ProjectDir)..\libs\external\lua\tolua;$(ProjectDir)..\libs\external\</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\exec\client\bin.win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcocos2dD.lib;libluacocos2dD.lib;libSpine.lib;lua51.lib;opengl32.lib;libzlib.lib;glew32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <BuildLog>
+      <Path />
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes\Global;$(ProjectDir)..\Classes\Controller;$(ProjectDir)..\Classes\Obj;$(ProjectDir)..\Classes\Layers;$(ProjectDir)..\libs\cocos2dx;$(ProjectDir)..\libs\cocos2dx\include;$(ProjectDir)..\libs\cocos2dx\kazmath\include;$(ProjectDir)..\libs\cocos2dx\platform\win32;$(ProjectDir)..\libs\cocos2dx\platform\third_party\win32\OGLES;$(ProjectDir)..\libs\extensions\;$(ProjectDir)..\libs\libnewspine\</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4251</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\bin.win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;libcocos2d.lib;libCocosDenshion.lib;libExtensions.lib;libnewspine.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy $(OutDir)$(TargetName).exe $(SolutionDir)..\bin.win32\$(TargetName).exe</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

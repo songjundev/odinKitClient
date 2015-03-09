@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\odinKit.cpp" />
+    <ClCompile Include="..\Classes\cocos-extend\BillboardParticleSystem.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\Camera3D.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\CCSequence3D.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\DrawNode3D.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\EffectSprite.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\EffectSprite3D.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\GreyShader.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\JumpBy3D.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\JumpTo3D.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\Water.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Lua\lua_cocos2dx_custom.cpp">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\ShadowSprite.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\cocos-extend\BillboardParticleSystem.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\Camera3D.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\CCSequence3D.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\DrawNode3D.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\EffectSprite.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\EffectSprite3D.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\GreyShader.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\JumpBy3D.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\JumpTo3D.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\Water.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Lua\lua_cocos2dx_custom.hpp">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Lua\lua_register.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\ShadowSprite.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="cocos-extend">
+      <UniqueIdentifier>{2285cfc4-7221-4d15-a7df-89423ddb3924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua">
+      <UniqueIdentifier>{ceab031e-9c73-4fc8-9647-d62616b4b8fe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
