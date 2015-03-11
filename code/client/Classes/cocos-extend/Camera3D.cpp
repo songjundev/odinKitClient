@@ -2,6 +2,20 @@
 
 using namespace cocos2d;
 
+Camera3D* Camera3D::create(int cameraType, float fieldOfView, float aspectRatio, float nearPlane, float farPlane)
+{
+	auto ret = new (std::nothrow) Camera3D();
+	if (ret)
+	{
+		ret->initPerspective(fieldOfView, aspectRatio, nearPlane, farPlane);
+		ret->setCameraType(cameraType);
+		ret->autorelease();
+		return ret;
+	}
+	CC_SAFE_DELETE(ret);
+	return nullptr;
+}
+
 void Camera3D::setCameraType(int type)
 {
 	m_CameraType = type;

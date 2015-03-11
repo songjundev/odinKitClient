@@ -1,0 +1,13 @@
+code/intermediate/*
+code/client/libs/*
+code/client/proj.win32/*.log
+code/client/proj.win32/*.suo
+code/client/proj.win32/*.user
+code/client/proj.win32/*.sdf
+exec/client/bin.win32/*.lib
+exec/client/bin.win32/*.dll
+exec/client/bin.win32/*.exe
+exec/client/bin.win32/*.ilk
+exec/client/bin.win32/*.pdb
+exec/client/bin.win32/*.exp
+exec/client/bin.win32/*.exe.manifest

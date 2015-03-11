@@ -24,7 +24,7 @@ function TownScene:initCamera()
 		camera_1:setCameraFlag(cc.CameraFlag.USER1)
 		self:addChild(camera_1)
 		
-		self._camera3d = cc.Camera:createPerspective(60, self.visibleSize.width/self.visibleSize.height, 1, 2000)
+		self._camera3d = cc.Camera3D:create(0, 60, self.visibleSize.width/self.visibleSize.height, 1, 2000)
 		self._camera3d:setCameraFlag(cc.CameraFlag.USER2)
 		self._camera3d:setPosition3D(cc.vec3(self.visibleSize.width/2, self.visibleSize.height/2, 100))
 		self._camera3d:setRotation3D(cc.vec3(-10, 0, 0))
@@ -39,14 +39,8 @@ function TownScene:createLayer()
     --create Background
     self:addBackground()
 
-    --create heros
-    self:addHeros()
-    
-    --create arrow
-    --self:addButton()
-    
-    --create bag
-    --self:addBag()
+    --create map
+    self:addMap()
     
     self:addChild(self.layer)
 end
@@ -59,7 +53,7 @@ function TownScene:addBackground()
     self.layer:addChild(background)
 end
 
-function TownScene:addHeros()
+function TownScene:addMap()
 		local file = "map/map001/map001.c3b"
 		local knight = Actor.create()
 		knight:init3D(file)
