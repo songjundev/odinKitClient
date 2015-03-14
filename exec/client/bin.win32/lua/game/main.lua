@@ -1,9 +1,5 @@
 require "lua.cocos.init"
-
--- cclog
-local cclog = function(...)
-    print(string.format(...))
-end
+require "lua.game.funcs"
 
 -- for CCLuaEngine traceback
 function __G__TRACKBACK__(msg)

@@ -1,3 +1,4 @@
+require "funcs"
 require "Actor"
 
 local TownScene  = class("TownScene",function()
@@ -43,6 +44,8 @@ function TownScene:createLayer()
     self:addMap()
     
     self:addChild(self.layer)
+    
+    self:setEventListener()
 end
 
 function TownScene:addBackground()
@@ -63,6 +66,19 @@ function TownScene:addMap()
     knight:setScale(15)
     knight:setCameraMask(cc.CameraFlag.USER2)
     self.layer:addChild(knight)
+end
+
+function TownScene:setEventListener()
+    local listener = cc.EventListenerTouchAllAtOnce:create()
+
+    listener:registerScriptHandler(function(touchs, event)
+        if #touchs ~= 0 then
+						cclog("touchtouchtouchtouchtouchtouch")
+        end
+    end, cc.Handler.EVENT_TOUCHES_MOVED)
+
+    local eventDispatcher = self:getEventDispatcher()
+    eventDispatcher:addEventListenerWithSceneGraphPriority(listener, self)
 end
 
 return TownScene
