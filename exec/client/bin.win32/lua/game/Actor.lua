@@ -14,11 +14,21 @@ function Actor.create()
 		return base
 end
 
-function Actor:init3D(file)
+function Actor:createModel3D(file)
     self._sprite3d = cc.Sprite3D:create(file)
-    --self._sprite3d:addEffect(cc.V3(0,0,0),CelLine, -1)
     self:addChild(self._sprite3d)
-    --self:setDefaultEqt()
+end
+
+function Actor:playAnimation(name, action, loop)
+    if self._curAnimation ~= name then
+        self._sprite3d:stopAllActions()
+        if loop then
+            self._sprite3d:runAction(cc.RepeatForever:create(action))
+        else
+            self._sprite3d:runAction(action)
+        end
+        self._curAnimation = name
+    end
 end
 
 return Actor
