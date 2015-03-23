@@ -86,7 +86,6 @@ end
 
 function TownScene:setEventListener()
     local listener = cc.EventListenerTouchAllAtOnce:create()
-
     listener:registerScriptHandler(function(touchs, event)
         if #touchs == 1 then
             --if self._cameraType == CameraType.FreeCamera then
@@ -94,9 +93,39 @@ function TownScene:setEventListener()
             --end
         end
     end, cc.Handler.EVENT_TOUCHES_MOVED)
+    
+    listener:registerScriptHandler(function(touchs, event)
+        if #touchs == 1 then
+        		self:heroMove(touchs[1])
+        end
+    end, cc.Handler.EVENT_TOUCHES_ENDED)
 
     local eventDispatcher = self:getEventDispatcher()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, self)
+end
+
+function TownScene:heroMove(touch)
+		local newPos = touch:getLocationInView()
+		cclog("touch point:"..newPos.x..","..newPos.y)
+		
+		local transformMat = self._camera3d:getNodeToWorldTransform()
+    local cameraDir = { x = -transformMat[9], y = -transformMat[10], z = -transformMat[11] }
+    cameraDir = cc.vec3normalize(cameraDir)
+    cameraDir.y = 0
+    cclog("cameraDir:"..cameraDir.x..","..cameraDir.y..","..cameraDir.z)
+    
+    transformMat = self._camera3d:getNodeToWorldTransform()
+    local cameraRightDir = { x = transformMat[1], y = transformMat[2], z = transformMat[3]}
+    cameraRightDir = cc.vec3normalize(cameraRightDir)
+    cameraRightDir.y = 0
+    cclog("cameraRightDir:"..cameraRightDir.x..","..cameraRightDir.y..","..cameraRightDir.z)
+    
+    local heroPos = self._hero:getPosition3D()
+    cclog("heroPos:"..heroPos.x..","..heroPos.y..","..heroPos.z)
+    heroPos = {x = heroPos.x - cameraDir.x * newPos.y * 0.1, y = heroPos.y - cameraDir.y * newPos.y * 0.1, z = heroPos.z - cameraDir.z * newPos.y * 0.1}
+    heroPos = {x = heroPos.x + cameraRightDir.x * newPos.x * 0.1, y = heroPos.y + cameraRightDir.y * newPos.x * 0.1, z = heroPos.z + cameraRightDir.z * newPos.x * 0.1}
+    self._hero:setPosition3D(heroPos)
+    cclog("heroPos:"..heroPos.x..","..heroPos.y..","..heroPos.z)
 end
 
 function TownScene:cameraMove(touch)
