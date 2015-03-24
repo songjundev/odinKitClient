@@ -65,7 +65,7 @@ function TownScene:addMap()
 		self._map:createModel3D(file)
     self._map:setTag(2)
     self._map:setRotation3D({x=0,y=0,z=0})
-    self._map:setPosition3D({x=self.visibleSize.width*0.5,y=self.visibleSize.height*0.35,z=-180})  
+    self._map:setPosition3D({x=self.visibleSize.width*0.5,y=0,z=-180})  
     self._map:setScale(15)
     self._map:setCameraMask(cc.CameraFlag.USER2)
     self.layer:addChild(self._map)
@@ -76,7 +76,7 @@ function TownScene:addHero()
 		self._hero:createModel3D(Knight_model)
     self._hero:setTag(2)
     self._hero:setRotation3D({x=0,y=0,z=0})
-    self._hero:setPosition3D({x=self.visibleSize.width*0.5,y=self.visibleSize.height*0.35,z=-180})  
+    self._hero:setPosition3D({x=self.visibleSize.width*0.5,y=0,z=-180})  
     self._hero:setScale(15)
     self._hero:setCameraMask(cc.CameraFlag.USER2)
     self.layer:addChild(self._hero)
@@ -89,14 +89,43 @@ function TownScene:setEventListener()
     listener:registerScriptHandler(function(touchs, event)
         if #touchs == 1 then
             --if self._cameraType == CameraType.FreeCamera then
-                self:cameraMove(touchs[1])
+                self:cameraRotation(touchs[1])
             --end
         end
     end, cc.Handler.EVENT_TOUCHES_MOVED)
     
     listener:registerScriptHandler(function(touchs, event)
-        if #touchs == 1 then
-        		self:heroMove(touchs[1])
+        for i,v in ipairs(touchs) do
+        		cclog("heroPos:"..self._hero:getPosition3D().x..","..self._hero:getPosition3D().y..","..self._hero:getPosition3D().z)
+            local touch = v
+            local location = touch:getLocationInView()
+
+            local nearP = cc.vec3(location.x, location.y, -1.0)
+            local farP  = cc.vec3(location.x, location.y, 1.0)
+                
+            local size = cc.Director:getInstance():getWinSize()
+            nearP = self._camera3d:unproject(size, nearP, nearP)
+            nearP.y = self._hero:getPosition3D().y
+            --nearP.z = self._hero:getPosition3D().z
+            cclog("nearP:"..nearP.x..","..nearP.y..","..nearP.z)
+            self._hero:setPosition3D(nearP)
+            
+            --[[farP  = self._camera3d:unproject(size, farP, farP)
+            cclog("heroPos:"..farP.x..","..farP.y..","..farP.z)
+            
+            local dir = cc.vec3(farP.x - nearP.x, farP.y - nearP.y, farP.z - nearP.z)
+            local dist=0.0
+            local ndd = dir.x * 0 + dir.y * 1 + dir.z * 0
+            if ndd == 0 then
+                dist=0.0
+            end
+
+            local ndo = nearP.x * 0 + nearP.y * 1 + nearP.z * 0
+            dist= (0 - ndo) / ndd
+            local heroPos =   cc.vec3(nearP.x + dist * dir.x, nearP.y + dist * dir.y, nearP.z + dist * dir.z)
+            cclog("heroPos:"..self._hero:getPosition3D().x..","..self._hero:getPosition3D().y..","..self._hero:getPosition3D().z)
+            self._hero:setPosition3D(heroPos)
+            cclog("heroPos:"..heroPos.x..","..heroPos.y..","..heroPos.z)]]
         end
     end, cc.Handler.EVENT_TOUCHES_ENDED)
 
@@ -126,6 +155,20 @@ function TownScene:heroMove(touch)
     heroPos = {x = heroPos.x + cameraRightDir.x * newPos.x * 0.1, y = heroPos.y + cameraRightDir.y * newPos.x * 0.1, z = heroPos.z + cameraRightDir.z * newPos.x * 0.1}
     self._hero:setPosition3D(heroPos)
     cclog("heroPos:"..heroPos.x..","..heroPos.y..","..heroPos.z)
+end
+
+function TownScene:cameraRotation(touch)
+		local rotation3D = self._camera3d:getRotation3D()
+		
+		local prelocation = touch:getPreviousLocationInView()
+    local location = touch:getLocationInView()
+
+    if prelocation.x < location.x then rotation3D.y = rotation3D.y - 1 end
+    if prelocation.x > location.x then rotation3D.y = rotation3D.y + 1 end
+    if (prelocation.y < location.y and rotation3D.x > -60) then rotation3D.x = rotation3D.x - 1 end
+    if (prelocation.y > location.y and rotation3D.x < 90) then rotation3D.x = rotation3D.x + 1 end
+
+    self._camera3d:setRotation3D(rotation3D)
 end
 
 function TownScene:cameraMove(touch)
