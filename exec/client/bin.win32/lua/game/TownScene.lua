@@ -1,6 +1,7 @@
 require "funcs"
 require "Actor"
 require "defines"
+require "Camera3D"
 
 local TownScene  = class("TownScene",function()
 	  return cc.Scene:create()
@@ -26,7 +27,7 @@ function TownScene:initCamera()
 		camera_1:setCameraFlag(cc.CameraFlag.USER1)
 		self:addChild(camera_1)
 		
-		self._camera3d = cc.Camera:createPerspective(60, self.visibleSize.width/self.visibleSize.height, 1, 2000)
+		self._camera3d = Camera3D.create(60, self.visibleSize.width/self.visibleSize.height, 1, 2000)
 		self._camera3d:setCameraFlag(cc.CameraFlag.USER2)
 		self._camera3d:setPosition3D(cc.vec3(self.visibleSize.width/2, self.visibleSize.height/3, 100))
 		self._camera3d:setRotation3D(cc.vec3(-20, 0, 0))
@@ -89,13 +90,13 @@ function TownScene:setEventListener()
     local listener = cc.EventListenerTouchAllAtOnce:create()
     --[[listener:registerScriptHandler(function(touchs, event)
         if #touchs == 1 then
-            self:cameraRotation(touchs[1])
+            self._camera3d:onRotation(touchs[1])
         end
     end, cc.Handler.EVENT_TOUCHES_MOVED)]]
     
     listener:registerScriptHandler(function(touchs, event)
         for i,v in ipairs(touchs) do
-            self:cameraMove(v)
+            self:sceneMove(v)
         end
     end, cc.Handler.EVENT_TOUCHES_ENDED)
 
@@ -103,36 +104,11 @@ function TownScene:setEventListener()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, self)
 end
 
-function TownScene:cameraRotation(touch)
-		local prelocation = touch:getPreviousLocationInView()
+function TownScene:sceneMove(touch)
     local location = touch:getLocationInView()
+    local targetPos = self._camera3d:translateScreen2World(location)
 
-		local rotation3D = self._camera3d:getRotation3D()
-    if prelocation.x < location.x then rotation3D.y = rotation3D.y - 1 end
-    if prelocation.x > location.x then rotation3D.y = rotation3D.y + 1 end
-    if (prelocation.y < location.y and rotation3D.x > -60) then rotation3D.x = rotation3D.x - 1 end
-    if (prelocation.y > location.y and rotation3D.x < 90) then rotation3D.x = rotation3D.x + 1 end
-
-    self._camera3d:setRotation3D(rotation3D)
-end
-
-function TownScene:cameraMove(touch)
-    local location = touch:getLocationInView()
-    local nearP = cc.vec3(location.x, location.y, -1.0)
-    local farP  = cc.vec3(location.x, location.y, 1.0)
-                
-    local size = cc.Director:getInstance():getWinSize()
-    nearP = self._camera3d:unproject(size, nearP, nearP)
-    farP  = self._camera3d:unproject(size, farP, farP)
-            
-    local dir = cc.vec3(farP.x - nearP.x, farP.y - nearP.y, farP.z - nearP.z)
-    local ndd = dir.x * 0 + dir.y * 1 + dir.z * 0
-    local ndo = nearP.x * 0 + nearP.y * 1 + nearP.z * 0
-    local dist = (0 - ndo) / ndd
-    local targetPos = cc.vec3(nearP.x + dist * dir.x, nearP.y + dist * dir.y, nearP.z + dist * dir.z)
-
-    self._hero:setMoveTargetPosition(targetPos)
-    self._hero:playAnimation("walk", Knight_action["walk"], true)
+    self._hero:startMove(targetPos)
 end
 
 return TownScene

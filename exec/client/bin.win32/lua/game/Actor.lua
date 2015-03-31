@@ -35,8 +35,9 @@ function Actor:playAnimation(name, action, loop)
     end
 end
 
-function Actor:setMoveTargetPosition(point)
+function Actor:startMove(point)
 		self._targetPos = point
+		self:playAnimation("walk", Knight_action["walk"], true)
 		
 		cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.schedulerMove)
     self.schedulerMove = cc.Director:getInstance():getScheduler():scheduleScriptFunc(function(dt)
@@ -51,13 +52,9 @@ function Actor:move(dt)
     newFaceDir = cc.vec3normalize(newFaceDir)
     local offset = { x = newFaceDir.x * speed * dt, y = newFaceDir.y * speed * dt, z = newFaceDir.z * speed * dt  }
     curPos = { x = curPos.x + offset.x, y = curPos.y + offset.y, z = curPos.z + offset.z}
-    self:rotateModel()
+    self:rotateModel(self._targetPos)
     self:setPosition3D(curPos)
-
-    local cameraPos = self._camera3d:getPosition3D()
-    cameraPos.x = cameraPos.x + offset.x
-    cameraPos.z = cameraPos.z + offset.z
-    self._camera3d:setPosition3D(cameraPos)
+    self._camera3d:onTranslate(offset)
     
     if vecEqual(self:getPosition3D(), self._targetPos) then
     		cc.Director:getInstance():getScheduler():unscheduleScriptEntry(self.schedulerMove)
@@ -65,9 +62,9 @@ function Actor:move(dt)
     end
 end
 
-function Actor:rotateModel()
+function Actor:rotateModel(targetPos)
 		local curPos = self:getPosition3D()
-    local newFaceDir = {x = self._targetPos.x - curPos.x, y = self._targetPos.y - curPos.y, z = self._targetPos.z - curPos.z }
+    local newFaceDir = {x = targetPos.x - curPos.x, y = targetPos.y - curPos.y, z = targetPos.z - curPos.z }
     newFaceDir = cc.vec3normalize(newFaceDir)
 
     local matTransform = self:getNodeToWorldTransform()
