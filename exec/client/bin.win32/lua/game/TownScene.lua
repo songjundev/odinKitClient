@@ -1,6 +1,7 @@
 require "funcs"
 require "Actor"
 require "defines"
+require "Camera3D"
 
 local TownScene  = class("TownScene",function()
 	  return cc.Scene:create()
@@ -26,10 +27,10 @@ function TownScene:initCamera()
 		camera_1:setCameraFlag(cc.CameraFlag.USER1)
 		self:addChild(camera_1)
 		
-		self._camera3d = cc.Camera:createPerspective(60, self.visibleSize.width/self.visibleSize.height, 1, 2000)
+		self._camera3d = Camera3D.create(60, self.visibleSize.width/self.visibleSize.height, 1, 2000)
 		self._camera3d:setCameraFlag(cc.CameraFlag.USER2)
-		self._camera3d:setPosition3D(cc.vec3(self.visibleSize.width/2, self.visibleSize.height/2, 100))
-		self._camera3d:setRotation3D(cc.vec3(-10, 0, 0))
+		self._camera3d:setPosition3D(cc.vec3(self.visibleSize.width/2, self.visibleSize.height/3, 100))
+		self._camera3d:setRotation3D(cc.vec3(-20, 0, 0))
     self:addChild(self._camera3d)
 end
 
@@ -65,7 +66,7 @@ function TownScene:addMap()
 		self._map:createModel3D(file)
     self._map:setTag(2)
     self._map:setRotation3D({x=0,y=0,z=0})
-    self._map:setPosition3D({x=self.visibleSize.width*0.5,y=self.visibleSize.height*0.35,z=-180})  
+    self._map:setPosition3D({x=self.visibleSize.width*0.5,y=0,z=-180})  
     self._map:setScale(15)
     self._map:setCameraMask(cc.CameraFlag.USER2)
     self.layer:addChild(self._map)
@@ -76,8 +77,9 @@ function TownScene:addHero()
 		self._hero:createModel3D(Knight_model)
     self._hero:setTag(2)
     self._hero:setRotation3D({x=0,y=0,z=0})
-    self._hero:setPosition3D({x=self.visibleSize.width*0.5,y=self.visibleSize.height*0.35,z=-180})  
+    self._hero:setPosition3D({x=self.visibleSize.width*0.5,y=0,z=-300})
     self._hero:setScale(15)
+    self._hero:setCamera(self._camera3d)
     self._hero:setCameraMask(cc.CameraFlag.USER2)
     self.layer:addChild(self._hero)
     
@@ -86,17 +88,15 @@ end
 
 function TownScene:setEventListener()
     local listener = cc.EventListenerTouchAllAtOnce:create()
-    listener:registerScriptHandler(function(touchs, event)
+    --[[listener:registerScriptHandler(function(touchs, event)
         if #touchs == 1 then
-            --if self._cameraType == CameraType.FreeCamera then
-                self:cameraMove(touchs[1])
-            --end
+            self._camera3d:onRotation(touchs[1])
         end
-    end, cc.Handler.EVENT_TOUCHES_MOVED)
+    end, cc.Handler.EVENT_TOUCHES_MOVED)]]
     
     listener:registerScriptHandler(function(touchs, event)
-        if #touchs == 1 then
-        		self:heroMove(touchs[1])
+        for i,v in ipairs(touchs) do
+            self:sceneMove(v)
         end
     end, cc.Handler.EVENT_TOUCHES_ENDED)
 
@@ -104,56 +104,11 @@ function TownScene:setEventListener()
     eventDispatcher:addEventListenerWithSceneGraphPriority(listener, self)
 end
 
-function TownScene:heroMove(touch)
-		local newPos = touch:getLocationInView()
-		cclog("touch point:"..newPos.x..","..newPos.y)
-		
-		local transformMat = self._camera3d:getNodeToWorldTransform()
-    local cameraDir = { x = -transformMat[9], y = -transformMat[10], z = -transformMat[11] }
-    cameraDir = cc.vec3normalize(cameraDir)
-    cameraDir.y = 0
-    cclog("cameraDir:"..cameraDir.x..","..cameraDir.y..","..cameraDir.z)
-    
-    transformMat = self._camera3d:getNodeToWorldTransform()
-    local cameraRightDir = { x = transformMat[1], y = transformMat[2], z = transformMat[3]}
-    cameraRightDir = cc.vec3normalize(cameraRightDir)
-    cameraRightDir.y = 0
-    cclog("cameraRightDir:"..cameraRightDir.x..","..cameraRightDir.y..","..cameraRightDir.z)
-    
-    local heroPos = self._hero:getPosition3D()
-    cclog("heroPos:"..heroPos.x..","..heroPos.y..","..heroPos.z)
-    heroPos = {x = heroPos.x - cameraDir.x * newPos.y * 0.1, y = heroPos.y - cameraDir.y * newPos.y * 0.1, z = heroPos.z - cameraDir.z * newPos.y * 0.1}
-    heroPos = {x = heroPos.x + cameraRightDir.x * newPos.x * 0.1, y = heroPos.y + cameraRightDir.y * newPos.x * 0.1, z = heroPos.z + cameraRightDir.z * newPos.x * 0.1}
-    self._hero:setPosition3D(heroPos)
-    cclog("heroPos:"..heroPos.x..","..heroPos.y..","..heroPos.z)
-end
-
-function TownScene:cameraMove(touch)
-		local prelocation = touch:getPreviousLocationInView()
+function TownScene:sceneMove(touch)
     local location = touch:getLocationInView()
-    local newPos = cc.p(prelocation.x - location.x, prelocation.y - location.y)
+    local targetPos = self._camera3d:translateScreen2World(location)
 
-    local transformMat = self._camera3d:getNodeToWorldTransform()
-    local cameraDir = { x = -transformMat[9], y = -transformMat[10], z = -transformMat[11] }
-    cameraDir = cc.vec3normalize(cameraDir)
-    cameraDir.y = 0
-
-    transformMat = self._camera3d:getNodeToWorldTransform()
-    local cameraRightDir = { x = transformMat[1], y = transformMat[2], z = transformMat[3]}
-    cameraRightDir = cc.vec3normalize(cameraRightDir)
-    cameraRightDir.y = 0
-
-    local cameraPos = self._camera3d:getPosition3D()
-    cameraPos = {x = cameraPos.x - cameraDir.x * newPos.y * 0.1, y = cameraPos.y - cameraDir.y * newPos.y * 0.1, z = cameraPos.z - cameraDir.z * newPos.y * 0.1}
-    cameraPos = {x = cameraPos.x + cameraRightDir.x * newPos.x * 0.1, y = cameraPos.y + cameraRightDir.y * newPos.x * 0.1, z = cameraPos.z + cameraRightDir.z * newPos.x * 0.1}
-    self._camera3d:setPosition3D(cameraPos)
-    
-    local heroPos = self._hero:getPosition3D()
-    heroPos = {x = heroPos.x - cameraDir.x * newPos.y * 0.1, y = heroPos.y - cameraDir.y * newPos.y * 0.1, z = heroPos.z - cameraDir.z * newPos.y * 0.1}
-    heroPos = {x = heroPos.x + cameraRightDir.x * newPos.x * 0.1, y = heroPos.y + cameraRightDir.y * newPos.x * 0.1, z = heroPos.z + cameraRightDir.z * newPos.x * 0.1}
-    self._hero:setPosition3D(heroPos)
-    self._hero:setRotation3D(cameraDir)
-    self._hero:playAnimation("walk", Knight_action["walk"], true)
+    self._hero:startMove(targetPos)
 end
 
 return TownScene
