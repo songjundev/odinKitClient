@@ -11,3 +11,4 @@ exec/client/bin.win32/*.ilk
 exec/client/bin.win32/*.pdb
 exec/client/bin.win32/*.exp
 exec/client/bin.win32/*.exe.manifest
+*.opensdf
