@@ -1,4 +1,4 @@
--- init knight animations=============================
+-- init model animations=============================
 Knight_model = "person/knight/knight.c3b"
 Knight_action = {
 		idle = createAnimation(Knight_model,267,283,0.7),
@@ -11,3 +11,16 @@ Knight_action = {
     knocked = createAnimation(Knight_model,254,260,0.7),
     dead = createAnimation(Knight_model,0,77,1)
 }
+
+Dragon_model = "person/dragon/dragon.c3b"
+Dragon_action = {
+    idle = createAnimation(Dragon_model,0,24,0.7),
+    knocked = createAnimation(Dragon_model,30,37,0.7),
+    dead = createAnimation(Dragon_model,42,80,1),
+    attack1 = createAnimation(Dragon_model,85,100,0.7),
+    attack2 = createAnimation(Dragon_model,100,115,0.7),
+    walk = createAnimation(Dragon_model,120,140,1)
+}
+
+
+cc.SpriteFrameCache:getInstance():addSpriteFrames("FX/FX.plist")

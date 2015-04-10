@@ -1,22 +1,41 @@
 
-Actor = class ("Actor", function()
-    local node = cc.Node:create()
+Actor = class ("Actor", function(file)
+    local node = cc.Sprite3D:create(file)
     node:setCascadeColorEnabled(true)
 	  return node
 end)
 
-function Actor:ctor()
+function Actor:ctor(file)
 		self.schedulerMove = 0
 end
 
-function Actor.create()
-    local base = Actor.new()
+function Actor.create(file)
+    local base = Actor.new(file)
 		return base
 end
 
-function Actor:createModel3D(file)
-    self._sprite3d = cc.Sprite3D:create(file)
-    self:addChild(self._sprite3d)
+--[[function Actor:createShadow()
+    self._circle = cc.Sprite:createWithSpriteFrameName("shadow.png")
+    self._circle:setScale(0.1)
+		self._circle:setOpacity(255*0.7)
+		self:addChild(self._circle)
+end]]
+
+function Actor:createShadow(plane)
+    -- use custom shader
+    local shader = cc.GLProgram:createWithFilenames("shadow/simple_shadow.vert","shadow/simple_shadow.frag")
+    local state = cc.GLProgramState:create(shader)
+    plane:setGLProgramState(state)
+    
+    -- pass mesh's attribute to shader
+    local offset = 0
+    local attributeCount = plane:getMesh():getMeshVertexAttribCount()
+    for i=0, attributeCount, 1 do
+        local meshattribute = plane:getMesh():getMeshVertexAttribute(i)
+        state:setVertexAttribPointer(s_attributeNames[meshattribute.vertexAttrib], meshattribute.size, meshattribute.type, _G.GL_FALSE, plane:getMesh():getVertexSizeInBytes(), offset)
+        offset = offset + meshattribute.attribSizeBytes
+    end
+    state:setUniformMat4("u_model_matrix", plane:getNodeToWorldTransform())
 end
 
 function Actor:setCamera(camera)
@@ -25,11 +44,11 @@ end
 
 function Actor:playAnimation(name, action, loop)
     if self._curAnimation ~= name then
-        self._sprite3d:stopAllActions()
+        self:stopAllActions()
         if loop then
-            self._sprite3d:runAction(cc.RepeatForever:create(action))
+            self:runAction(cc.RepeatForever:create(action))
         else
-            self._sprite3d:runAction(action)
+            self:runAction(action)
         end
         self._curAnimation = name
     end

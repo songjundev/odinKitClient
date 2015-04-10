@@ -46,6 +46,7 @@ function TownScene:createLayer()
     self:addMap()
     
     self:addHero()
+    self:addMonster()
     
     self:addChild(self.layer)
     
@@ -62,8 +63,7 @@ end
 
 function TownScene:addMap()
 		local file = "map/map001/map001.c3b"
-		self._map = Actor.create()
-		self._map:createModel3D(file)
+		self._map = Actor.create(file)
     self._map:setTag(2)
     self._map:setRotation3D({x=0,y=0,z=0})
     self._map:setPosition3D({x=self.visibleSize.width*0.5,y=0,z=-180})  
@@ -73,17 +73,31 @@ function TownScene:addMap()
 end
 
 function TownScene:addHero()
-		self._hero = Actor.create()
-		self._hero:createModel3D(Knight_model)
+		self._hero = Actor.create(Knight_model)
+		self._hero:createShadow(self._map)
     self._hero:setTag(2)
     self._hero:setRotation3D({x=0,y=0,z=0})
-    self._hero:setPosition3D({x=self.visibleSize.width*0.5,y=0,z=-300})
+    self._hero:setPosition3D({x=300,y=0,z=-300})
     self._hero:setScale(15)
     self._hero:setCamera(self._camera3d)
     self._hero:setCameraMask(cc.CameraFlag.USER2)
     self.layer:addChild(self._hero)
     
     self._hero:playAnimation("idle", Knight_action["idle"], true)
+end
+
+function TownScene:addMonster()
+		self._monster = Actor.create(Dragon_model)
+		self._monster:createShadow(self._map)
+    self._monster:setTag(2)
+    self._monster:setRotation3D({x=0,y=0,z=0})
+    self._monster:setPosition3D({x=400,y=0,z=-300})
+    self._monster:setScale(15)
+    self._monster:setCamera(self._camera3d)
+    self._monster:setCameraMask(cc.CameraFlag.USER2)
+    self.layer:addChild(self._monster)
+    
+    self._monster:playAnimation("idle", Dragon_action["idle"], true)
 end
 
 function TownScene:setEventListener()
@@ -109,6 +123,17 @@ function TownScene:sceneMove(touch)
     local targetPos = self._camera3d:translateScreen2World(location)
 
     self._hero:startMove(targetPos)
+end
+
+function TownScene:selectTarget(touch)
+		local location = touch:getLocationInView()
+    local targetPos = self._camera3d:translateScreen2World(location)
+    
+		if (self._monster:getAABB():containPoint(targetPos)) then
+				return true
+		end
+		
+		return false
 end
 
 return TownScene
