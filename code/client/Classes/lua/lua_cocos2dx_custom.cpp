@@ -7,6 +7,7 @@
 #include "JumpTo3D.h"
 #include "JumpBy3D.h"
 #include "Camera3D.h"
+#include "FakeShadow.h"
 #include "Water.h"
 #include "EffectSprite.h"
 #include "CCSequence3D.h"
@@ -222,24 +223,21 @@ int lua_cocos2dx_custom_Effect3D_setTarget(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 2) 
+    if (argc == 1) 
     {
-        cocos2d::Sprite3D* arg0;
-        cocos2d::Mesh* arg1;
+        cocos2d::EffectSprite3D* arg0;
 
-        ok &= luaval_to_object<cocos2d::Sprite3D>(tolua_S, 2, "cc.Sprite3D",&arg0);
-
-        ok &= luaval_to_object<cocos2d::Mesh>(tolua_S, 3, "cc.Mesh",&arg1);
+		ok &= luaval_to_object<cocos2d::EffectSprite3D>(tolua_S, 2, "cc.EffectSprite3D", &arg0);
         if(!ok)
         {
             tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_custom_Effect3D_setTarget'", nullptr);
             return 0;
         }
-        cobj->setTarget(arg0, arg1);
+        cobj->setTarget(arg0);
         lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Effect3D:setTarget",argc, 2);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.Effect3D:setTarget",argc, 1);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -502,27 +500,24 @@ int lua_cocos2dx_custom_EffectSprite3D_addEffect(lua_State* tolua_S)
 #endif
 
     argc = lua_gettop(tolua_S)-1;
-    if (argc == 3) 
+    if (argc == 2) 
     {
-        cocos2d::Vec3 arg0;
-        double arg1;
-        ssize_t arg2;
+		cocos2d::Effect3DOutline* arg0;
+        ssize_t arg1;
 
-        ok &= luaval_to_vec3(tolua_S, 2, &arg0, "cc.EffectSprite3D:addEffect");
+		ok &= luaval_to_object<cocos2d::Effect3DOutline>(tolua_S, 2, "cc.Effect3DOutline", &arg0);
 
-        ok &= luaval_to_number(tolua_S, 3,&arg1, "cc.EffectSprite3D:addEffect");
-
-        ok &= luaval_to_ssize(tolua_S, 4, &arg2, "cc.EffectSprite3D:addEffect");
+        ok &= luaval_to_ssize(tolua_S, 3, &arg1, "cc.EffectSprite3D:addEffect");
         if(!ok)
         {
             tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_custom_EffectSprite3D_addEffect'", nullptr);
             return 0;
         }
-        cobj->addEffect(arg0, arg1, arg2);
+        cobj->addEffect(arg0, arg1);
         lua_settop(tolua_S, 1);
         return 1;
     }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.EffectSprite3D:addEffect",argc, 3);
+    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.EffectSprite3D:addEffect",argc, 2);
     return 0;
 
 #if COCOS2D_DEBUG >= 1
@@ -532,100 +527,7 @@ int lua_cocos2dx_custom_EffectSprite3D_addEffect(lua_State* tolua_S)
 
     return 0;
 }
-int lua_cocos2dx_custom_EffectSprite3D_getMesh(lua_State* tolua_S)
-{
-    int argc = 0;
-    cocos2d::EffectSprite3D* cobj = nullptr;
-    bool ok  = true;
 
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertype(tolua_S,1,"cc.EffectSprite3D",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    cobj = (cocos2d::EffectSprite3D*)tolua_tousertype(tolua_S,1,0);
-
-#if COCOS2D_DEBUG >= 1
-    if (!cobj) 
-    {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_custom_EffectSprite3D_getMesh'", nullptr);
-        return 0;
-    }
-#endif
-
-    argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_custom_EffectSprite3D_getMesh'", nullptr);
-            return 0;
-        }
-        cocos2d::Vector<cocos2d::Mesh *>& ret = cobj->getMesh();
-        ccvector_to_luaval(tolua_S, ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.EffectSprite3D:getMesh",argc, 0);
-    return 0;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_custom_EffectSprite3D_getMesh'.",&tolua_err);
-#endif
-
-    return 0;
-}
-int lua_cocos2dx_custom_EffectSprite3D_getMeshNum(lua_State* tolua_S)
-{
-    int argc = 0;
-    cocos2d::EffectSprite3D* cobj = nullptr;
-    bool ok  = true;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_Error tolua_err;
-#endif
-
-
-#if COCOS2D_DEBUG >= 1
-    if (!tolua_isusertype(tolua_S,1,"cc.EffectSprite3D",0,&tolua_err)) goto tolua_lerror;
-#endif
-
-    cobj = (cocos2d::EffectSprite3D*)tolua_tousertype(tolua_S,1,0);
-
-#if COCOS2D_DEBUG >= 1
-    if (!cobj) 
-    {
-        tolua_error(tolua_S,"invalid 'cobj' in function 'lua_cocos2dx_custom_EffectSprite3D_getMeshNum'", nullptr);
-        return 0;
-    }
-#endif
-
-    argc = lua_gettop(tolua_S)-1;
-    if (argc == 0) 
-    {
-        if(!ok)
-        {
-            tolua_error(tolua_S,"invalid arguments in function 'lua_cocos2dx_custom_EffectSprite3D_getMeshNum'", nullptr);
-            return 0;
-        }
-        int ret = cobj->getMeshNum();
-        tolua_pushnumber(tolua_S,(lua_Number)ret);
-        return 1;
-    }
-    luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.EffectSprite3D:getMeshNum",argc, 0);
-    return 0;
-
-#if COCOS2D_DEBUG >= 1
-    tolua_lerror:
-    tolua_error(tolua_S,"#ferror in function 'lua_cocos2dx_custom_EffectSprite3D_getMeshNum'.",&tolua_err);
-#endif
-
-    return 0;
-}
 int lua_cocos2dx_custom_EffectSprite3D_create(lua_State* tolua_S)
 {
     int argc = 0;
@@ -714,8 +616,6 @@ int lua_register_cocos2dx_custom_EffectSprite3D(lua_State* tolua_S)
     tolua_beginmodule(tolua_S,"EffectSprite3D");
         tolua_function(tolua_S,"setEffect3D",lua_cocos2dx_custom_EffectSprite3D_setEffect3D);
         tolua_function(tolua_S,"addEffect",lua_cocos2dx_custom_EffectSprite3D_addEffect);
-        tolua_function(tolua_S,"getMesh",lua_cocos2dx_custom_EffectSprite3D_getMesh);
-        tolua_function(tolua_S,"getMeshNum",lua_cocos2dx_custom_EffectSprite3D_getMeshNum);
         tolua_function(tolua_S,"create", lua_cocos2dx_custom_EffectSprite3D_create);
         tolua_function(tolua_S,"createFromObjFileAndTexture", lua_cocos2dx_custom_EffectSprite3D_createFromObjFileAndTexture);
     tolua_endmodule(tolua_S);
@@ -6570,6 +6470,112 @@ int lua_register_cocos2dx_custom_Camera3D(lua_State* tolua_S)
 	return 1;
 }
 
+int lua_cocos2dx_custom_FakeShadow_create(lua_State* tolua_S)
+{
+	int argc = 0;
+	bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+	tolua_Error tolua_err;
+#endif
+
+#if COCOS2D_DEBUG >= 1
+	if (!tolua_isusertable(tolua_S, 1, "cc.FakeShadow", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+	argc = lua_gettop(tolua_S) - 1;
+	if (argc == 1)
+	{
+		cocos2d::Sprite3D* arg0;
+		ok &= luaval_to_object<cocos2d::Sprite3D>(tolua_S, 2, "cc.Sprite3D", &arg0);
+		if (!ok)
+		{
+			tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_custom_FakeShadow_create'", nullptr);
+			return 0;
+		}
+		cocos2d::FakeShadow* ret = cocos2d::FakeShadow::create(arg0);
+		object_to_luaval<cocos2d::FakeShadow>(tolua_S, "cc.FakeShadow", (cocos2d::FakeShadow*)ret);
+		return 1;
+	}
+	luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d\n ", "cc.FakeShadow:create", argc, 1);
+	return 0;
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+	tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_custom_FakeShadow_create'.", &tolua_err);
+#endif
+	return 0;
+}
+static int lua_cocos2dx_custom_FakeShadow_finalize(lua_State* tolua_S)
+{
+	printf("luabindings: finalizing LUA object (FakeShadow)");
+	return 0;
+}
+int lua_cocos2dx_custom_FakeShadow_setPosition3D(lua_State* tolua_S)
+{
+	int argc = 0;
+	cocos2d::FakeShadow* cobj = nullptr;
+	bool ok = true;
+
+#if COCOS2D_DEBUG >= 1
+	tolua_Error tolua_err;
+#endif
+
+
+#if COCOS2D_DEBUG >= 1
+	if (!tolua_isusertype(tolua_S, 1, "cc.FakeShadow", 0, &tolua_err)) goto tolua_lerror;
+#endif
+
+	cobj = (cocos2d::FakeShadow*)tolua_tousertype(tolua_S, 1, 0);
+
+#if COCOS2D_DEBUG >= 1
+	if (!cobj)
+	{
+		tolua_error(tolua_S, "invalid 'cobj' in function 'lua_cocos2dx_custom_FakeShadow_setPosition3D'", nullptr);
+		return 0;
+	}
+#endif
+
+	argc = lua_gettop(tolua_S) - 1;
+	if (argc == 1)
+	{
+		cocos2d::Vec3 arg0;
+
+		ok &= luaval_to_vec3(tolua_S, 2, &arg0, "cc.FakeShadow:setPosition3D");
+		if (!ok)
+		{
+			tolua_error(tolua_S, "invalid arguments in function 'lua_cocos2dx_custom_FakeShadow_setPosition3D'", nullptr);
+			return 0;
+		}
+		cobj->setPosition3D(arg0);
+		lua_settop(tolua_S, 1);
+		return 1;
+	}
+	luaL_error(tolua_S, "%s has wrong number of arguments: %d, was expecting %d \n", "cc.FakeShadow:setPosition3D", argc, 1);
+	return 0;
+
+#if COCOS2D_DEBUG >= 1
+tolua_lerror:
+	tolua_error(tolua_S, "#ferror in function 'lua_cocos2dx_custom_FakeShadow_setPosition3D'.", &tolua_err);
+#endif
+
+	return 0;
+}
+
+int lua_register_cocos2dx_custom_FakeShadow(lua_State* tolua_S)
+{
+	tolua_usertype(tolua_S, "cc.FakeShadow");
+	tolua_cclass(tolua_S, "FakeShadow", "cc.FakeShadow", "cc.FakeShadow", nullptr);
+
+	tolua_beginmodule(tolua_S, "FakeShadow");
+		tolua_function(tolua_S, "create", lua_cocos2dx_custom_FakeShadow_create);
+		tolua_function(tolua_S, "setPosition3D", lua_cocos2dx_custom_FakeShadow_setPosition3D);
+	tolua_endmodule(tolua_S);
+	std::string typeName = typeid(cocos2d::FakeShadow).name();
+	g_luaType[typeName] = "cc.FakeShadow";
+	g_typeCast["FakeShadow"] = "cc.FakeShadow";
+	return 1;
+}
+
 TOLUA_API int register_all_cocos2dx_custom(lua_State* tolua_S)
 {
 	tolua_open(tolua_S);
@@ -6592,6 +6598,7 @@ TOLUA_API int register_all_cocos2dx_custom(lua_State* tolua_S)
 	lua_register_cocos2dx_custom_EffectSprite3D(tolua_S);
 	lua_register_cocos2dx_custom_Sequence3D(tolua_S);
 	lua_register_cocos2dx_custom_Camera3D(tolua_S);
+	lua_register_cocos2dx_custom_FakeShadow(tolua_S);
 
 	tolua_endmodule(tolua_S);
 	return 1;

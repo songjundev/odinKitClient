@@ -1,6 +1,6 @@
 
 Actor = class ("Actor", function(file)
-    local node = cc.Sprite3D:create(file)
+    local node = cc.EffectSprite3D:create(file)
     node:setCascadeColorEnabled(true)
 	  return node
 end)
@@ -14,28 +14,16 @@ function Actor.create(file)
 		return base
 end
 
---[[function Actor:createShadow()
-    self._circle = cc.Sprite:createWithSpriteFrameName("shadow.png")
-    self._circle:setScale(0.1)
-		self._circle:setOpacity(255*0.7)
-		self:addChild(self._circle)
-end]]
-
 function Actor:createShadow(plane)
-    -- use custom shader
-    local shader = cc.GLProgram:createWithFilenames("shadow/simple_shadow.vert","shadow/simple_shadow.frag")
-    local state = cc.GLProgramState:create(shader)
-    plane:setGLProgramState(state)
-    
-    -- pass mesh's attribute to shader
-    local offset = 0
-    local attributeCount = plane:getMesh():getMeshVertexAttribCount()
-    for i=0, attributeCount, 1 do
-        local meshattribute = plane:getMesh():getMeshVertexAttribute(i)
-        state:setVertexAttribPointer(s_attributeNames[meshattribute.vertexAttrib], meshattribute.size, meshattribute.type, _G.GL_FALSE, plane:getMesh():getVertexSizeInBytes(), offset)
-        offset = offset + meshattribute.attribSizeBytes
-    end
-    state:setUniformMat4("u_model_matrix", plane:getNodeToWorldTransform())
+		self._shadow = cc.FakeShadow:create(plane)
+		self._shadow:setPosition3D(self:getPosition3D())
+end
+
+function Actor:createSkinOutline()
+		self._skinOutline = cc.Effect3DOutline:create()
+		self._skinOutline:setOutlineColor(cc.vec3(1,0,0))
+		self._skinOutline:setOutlineWidth(0.01)
+		self:addEffect(self._skinOutline, -1)
 end
 
 function Actor:setCamera(camera)

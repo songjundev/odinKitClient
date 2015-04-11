@@ -74,7 +74,6 @@ end
 
 function TownScene:addHero()
 		self._hero = Actor.create(Knight_model)
-		self._hero:createShadow(self._map)
     self._hero:setTag(2)
     self._hero:setRotation3D({x=0,y=0,z=0})
     self._hero:setPosition3D({x=300,y=0,z=-300})
@@ -88,7 +87,6 @@ end
 
 function TownScene:addMonster()
 		self._monster = Actor.create(Dragon_model)
-		self._monster:createShadow(self._map)
     self._monster:setTag(2)
     self._monster:setRotation3D({x=0,y=0,z=0})
     self._monster:setPosition3D({x=400,y=0,z=-300})

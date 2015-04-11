@@ -39,6 +39,9 @@
     <ClCompile Include="..\Classes\cocos-extend\ShadowSprite.cpp">
       <Filter>cocos-extend</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\cocos-extend\FakeShadow.cpp">
+      <Filter>cocos-extend</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
@@ -79,6 +82,9 @@
       <Filter>lua</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\cocos-extend\ShadowSprite.h">
+      <Filter>cocos-extend</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\cocos-extend\FakeShadow.h">
       <Filter>cocos-extend</Filter>
     </ClInclude>
   </ItemGroup>
