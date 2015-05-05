@@ -43,7 +43,7 @@ function TownScene:createLayer()
     self:addBackground()
 
     --create map
-    self:addMap()
+    self:addMap3D()
     
     self:addHero()
     self:addMonster()
@@ -62,6 +62,16 @@ function TownScene:addBackground()
 end
 
 function TownScene:addMap()
+		local file = "map/map01/map02.tmx"
+		
+		self._map = cc.TMXTiledMap:create(file)
+		--self._map:setAnchorPoint(0.5,0.5)
+		--self._map:setPosition(self.origin.x + self.visibleSize.width/2, self.origin.y + self.visibleSize.height/2)
+		self._map:setCameraMask(cc.CameraFlag.USER1)
+		self.layer:addChild(self._map)
+end
+
+function TownScene:addMap3D()
 		local file = "map/map001/map001.c3b"
 		self._map = Actor.create(file)
     self._map:setTag(2)

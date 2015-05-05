@@ -26,7 +26,7 @@ local function main()
     --adaptation
     local pEGLView = cc.Director:getInstance():getOpenGLView()
     local frameSize = pEGLView:getFrameSize()
-    local winSize = {width=1136,height=640}
+    local winSize = {width=960,height=640}
 
     local widthRate = frameSize.width/winSize.width
     local heightRate = frameSize.height/winSize.height
