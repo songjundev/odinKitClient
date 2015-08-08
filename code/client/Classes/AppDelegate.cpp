@@ -1,6 +1,8 @@
 #include "AppDelegate.h"
 #include "CCLuaEngine.h"
 #include "lua_register.h"
+#include "Map_Director.h"
+#include "MapDataManage.h"
 
 USING_NS_CC;
 
@@ -35,6 +37,10 @@ bool AppDelegate::applicationDidFinishLaunching()
 	stack->setXXTEAKeyAndSign("2dxLua", strlen("2dxLua"), "XXTEA", strlen("XXTEA"));
 
 	engine->executeScriptFile("lua/game/main.lua");
+
+	Scene* scene = Scene::create();
+	MapDataManage::getObject()->LoadMapData(110, "./Resources/map");
+	scene->addChild(Map_Director::createMap("./Resources/map", true));
 
     return true;
 }

@@ -1,0 +1,13 @@
+cocos2dx 3.6
+修改引擎：
+
+文件：CCFileUtils-win32.cpp
+函数：static void _checkPath()
+源代码：
+WCHAR *pUtf16ExePath = nullptr;
+ 
+_get_wpgmptr(&pUtf16ExePath);
+修改代码：
+WCHAR pUtf16ExePath[256] = { 0 };
+GetModuleFileName(NULL, pUtf16ExePath, 256);
+功能：获取windows的可执行程序路径

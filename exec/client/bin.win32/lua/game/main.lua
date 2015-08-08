@@ -43,7 +43,7 @@ local function main()
     end
 
     --create scene
-    local scene = require("TownScene")
+    --[[local scene = require("TownScene")
     --local scene = require("ChooseRoleScene")
     local activateGameScene = scene.create()
     --activateGameScene:playBgMusic()
@@ -53,7 +53,7 @@ local function main()
         cc.Director:getInstance():replaceScene(activateGameScene)
     else
         cc.Director:getInstance():runWithScene(activateGameScene)
-    end
+    end]]
 
 end
 

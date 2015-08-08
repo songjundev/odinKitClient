@@ -75,8 +75,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)..\..\..\exec\client\bin.win32</OutDir>
-    <IntDir>$(SolutionDir)\..\..\intermediate\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)..\..\..\exec\client\bin.win32</OutDir>
+    <IntDir>$(ProjectDir)\..\..\intermediate\$(ProjectName)\$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)D</TargetName>
     <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
@@ -92,15 +92,15 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_USING_V110_SDK71_;_CRT_SECURE_NO_DEPRECATE;COCOS2D_DEBUG=1;WIN32;_DEBUG;_WINDOWS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes\;$(ProjectDir)..\Classes\Global;$(ProjectDir)..\Classes\Controller;$(ProjectDir)..\Classes\protobuf-lite;$(ProjectDir)..\Classes\runtime;$(ProjectDir)..\Classes\Lua;$(ProjectDir)..\Classes\cocos-extend;$(ProjectDir)..\libs;$(ProjectDir)..\libs\cocos;$(ProjectDir)..\libs\cocos\platform;$(ProjectDir)..\libs\cocos\editor-support\;$(ProjectDir)..\libs\cocos\editor-support\spine;$(ProjectDir)..\libs\cocos\editor-support\cocosbuilder;$(ProjectDir)..\libs\cocos\scripting\lua-bindings\manual;$(ProjectDir)..\libs\external\win32-specific\zlib\include;$(ProjectDir)..\libs\external\win32-specific\gles\include\OGLES;$(ProjectDir)..\libs\external\glfw3\include\win32;$(ProjectDir)..\libs\external\lua\lua;$(ProjectDir)..\libs\external\lua\tolua;$(ProjectDir)..\libs\external\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Classes\;$(ProjectDir)..\Classes\Global;$(ProjectDir)..\Classes\Controller;$(ProjectDir)..\Classes\protobuf-lite;$(ProjectDir)..\Classes\runtime;$(ProjectDir)..\Classes\Lua;$(ProjectDir)..\Classes\cocos-extend;$(ProjectDir)..\..\sdk\cocos2dx;$(ProjectDir)..\..\sdk\cocos2dx\cocos;$(ProjectDir)..\..\sdk\cocos2dx\cocos\platform;$(ProjectDir)..\..\sdk\cocos2dx\cocos\editor-support\;$(ProjectDir)..\..\sdk\cocos2dx\cocos\editor-support\spine;$(ProjectDir)..\..\sdk\cocos2dx\cocos\editor-support\cocosbuilder;$(ProjectDir)..\..\sdk\cocos2dx\cocos\scripting\lua-bindings\manual;$(ProjectDir)..\..\sdk\cocos2dx\external\win32-specific\zlib\include;$(ProjectDir)..\..\sdk\cocos2dx\external\win32-specific\gles\include\OGLES;$(ProjectDir)..\..\sdk\cocos2dx\external\glfw3\include\win32;$(ProjectDir)..\..\sdk\cocos2dx\external\lua\lua;$(ProjectDir)..\..\sdk\cocos2dx\external\lua\tolua;$(ProjectDir)..\..\sdk\cocos2dx\external\;$(ProjectDir)..\..\sdk\libmap</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4251</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\..\..\exec\client\bin.win32</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcocos2dD.lib;libluacocos2dD.lib;libSpine.lib;lua51.lib;opengl32.lib;libzlib.lib;glew32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\exec\client\bin.win32</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libmapD.lib;libcocos2dD.lib;libluacocos2dD.lib;libSpine.lib;lua51.lib;opengl32.lib;libzlib.lib;glew32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
